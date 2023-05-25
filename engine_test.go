@@ -2,10 +2,12 @@ package verity_test
 
 import (
 	"context"
+	"testing"
 	"time"
 
 	"github.com/dogmatiq/dogma"
 	. "github.com/dogmatiq/dogma/fixtures"
+	"github.com/dogmatiq/enginekit/enginetest"
 	. "github.com/dogmatiq/verity"
 	. "github.com/dogmatiq/verity/fixtures"
 	"github.com/dogmatiq/verity/persistence/memorypersistence"
@@ -14,6 +16,23 @@ import (
 )
 
 var _ dogma.CommandExecutor = (*Engine)(nil)
+
+func TestEngine(t *testing.T) {
+	enginetest.RunTests(
+		t,
+		func(p enginetest.SetupParams) enginetest.SetupResult {
+			e := New(
+				p.App,
+				WithPersistence(&memorypersistence.Provider{}),
+			)
+
+			return enginetest.SetupResult{
+				RunEngine: e.Run,
+				Executor:  e,
+			}
+		},
+	)
+}
 
 var _ = Describe("type Engine", func() {
 	var (
