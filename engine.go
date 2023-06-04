@@ -71,7 +71,7 @@ func (e *Engine) ExecuteCommand(ctx context.Context, m dogma.Message) error {
 		return x.ExecuteCommand(ctx, m)
 	}
 
-	return fmt.Errorf("no application accepts %s commands", mt)
+	panic(fmt.Sprintf("no application accepts %s commands", mt))
 }
 
 // Run hosts the given application until ctx is canceled or an error occurs.
